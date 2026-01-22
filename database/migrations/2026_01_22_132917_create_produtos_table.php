@@ -1,3 +1,4 @@
+
 <?php
 
 use Illuminate\Database\Migrations\Migration;
@@ -13,6 +14,11 @@ return new class extends Migration
     {
         Schema::create('produtos', function (Blueprint $table) {
             $table->id();
+            $table->string('marca');
+            $table->string('descricao');
+            $table->string('valor_unitario');
+            $table->integer('quantidade_estoque');
+            $table->integer('faixa_etaria_minima');
             $table->timestamps();
         });
     }
@@ -25,3 +31,4 @@ return new class extends Migration
         Schema::dropIfExists('produtos');
     }
 };
+
