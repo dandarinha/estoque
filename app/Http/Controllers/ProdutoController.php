@@ -51,7 +51,7 @@ class ProdutoController extends Controller
         }
         $produto->delete();
         return response()->json([
-            'mensagem' => 'produto excluído'
+            'mensagem' => 'Produto excluído'
         ]);
     }
 }

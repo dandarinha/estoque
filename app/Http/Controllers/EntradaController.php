@@ -3,17 +3,32 @@
 namespace App\Http\Controllers;
 
 use App\Models\Entrada;
+use App\Models\Produto;
 use Illuminate\Http\Request;
 
 class EntradaController extends Controller
 {
     public function store(Request $request)
     {
-        $entrada = Entrada::create([
-            'id_produto' => $request->id_produto,
-            'quantidade' => $request->quantidade
-        ]);
-        return response()->json($entrada);
+        $produto = Produto::find($request->id_produto);
+        if ($produto == null) {
+            return response()->json([
+                'erro' => 'Produto não encontrado'
+            ]);
+        } else {
+            $entrada = Entrada::create([
+                'id_produto' => $request->id_produto,
+                'quantidade' => $request->quantidade
+            ]);
+
+            if(isset($request->quantidade)) {
+                $produto->quantidade_estoque += $request->quantidade;
+            }
+
+            $produto->update();
+            return response()->json('Estoque atualizado');
+
+        }
     }
 
     public function index()
