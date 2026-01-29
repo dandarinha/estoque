@@ -21,13 +21,12 @@ class EntradaController extends Controller
                 'quantidade' => $request->quantidade
             ]);
 
-            if(isset($request->quantidade)) {
+            if (isset($request->quantidade)) {
                 $produto->quantidade_estoque += $request->quantidade;
             }
 
             $produto->update();
             return response()->json('Estoque atualizado');
-
         }
     }
 
@@ -46,9 +45,21 @@ class EntradaController extends Controller
                 'erro' => 'Entrada não encontrada'
             ]);
         }
-        $entrada->delete();
-        return response()->json([
-            'mensagem' => 'Entrada excluída'
-        ]);
+        $produto = Produto::find($entrada->id_produto);
+        if ($produto == null) {
+            return response()->json([
+                'erro' => 'Produto não encontrado'
+            ]);}
+
+            if (isset($request->quantidade)) {
+                $produto->quantidade_estoque -= $request->quantidade;
+            }
+
+            $produto->update();
+
+
+            $entrada->delete();
+            return response()->json('Estoque atualizado');
+        }
     }
-}
+
